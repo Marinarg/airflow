@@ -1,0 +1,7 @@
+{
+    "bash_to_trigger_cralwer": "cd ~/Documents/git/my_crawlers/websites_crawlers/spiders/ && scrapy crawl {0} -o {1} -t csv",
+    "bash_to_move_files": "echo pankeka123 | sudo -S mv ~/Documents/git/my_crawlers/websites_crawlers/spiders/{0} ~/../../var/lib/mysql-files/",
+    "sql_to_save_csv":"load data infile '~/../../var/lib/mysql-files/{0}' into table crawlers_results fields terminated by ';' enclosed by '\"' lines terminated by '\\n' (product_name, product_description, product_labels, product_id, product_price, product_image, product_url, currency_iso, currency_symbol, in_stock, execution_date, website_domain, website_url)",
+    "sql_to_save_shipping_csv":"load data infile '~/../../var/lib/mysql-files/{0}' into table shipping_crawlers_results fields terminated by ';' enclosed by '\"' lines terminated by '\\n' (response, execution_date, website_domain, website_url)",
+    "bash_to_delete_csv": "echo pankeka123 | sudo -S rm ~/../../var/lib/mysql-files/{0}"
+}
