@@ -1,0 +1,22 @@
+[Unit]
+Description=Airflow Webserver
+After=network.target
+
+[Service]
+Type=simple
+PIDFile=/run/airflow/pid
+User=ubuntu
+Group=ubuntu
+RuntimeDirectory=airflow
+WorkingDirectory=/home/ubuntu/airflow
+Environment="PATH=/home/ubuntu/miniconda3/envs/airflow/bin:/home/ubuntu/miniconda3/condabin:/usr/local/bin:/usr/bin:/bin"
+Environment="AIRFLOW_HOME=/home/ubuntu/airflow"
+Environment="PYTHONPATH=/home/ubuntu/airflow"
+ExecStart=/home/ubuntu/miniconda3/envs/airflow/bin/airflow webserver
+StandardOutput=append:/var/log/airflow/access.log
+StandardError=append:/var/log/airflow/error.log
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID
+
+[Install]
+WantedBy=multi-user.target
