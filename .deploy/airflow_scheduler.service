@@ -8,9 +8,9 @@ PIDFile=/run/airflow/pid
 User=ubuntu
 Group=ubuntu
 RuntimeDirectory=airflow
-WorkingDirectory=/home/ubuntu/airflow
-Environment="PATH=/home/ubuntu/.local/bin/airflow:/home/ubuntu/miniconda3/condabin:/usr/local/bin:/usr/bin:/bin"
-Environment="AIRFLOW_HOME=/home/ubuntu/airflow"
+WorkingDirectory=/home/admin/airflow
+Environment="PATH=/home/admin/.local/bin/airflow:/home/ubuntu/miniconda3/condabin:/usr/local/bin:/usr/bin:/bin"
+Environment="AIRFLOW_HOME=/home/admin/airflow"
 Environment="PYTHONPATH=/home/ubuntu/airflow"
 ExecStart=/home/ubuntu/.local/bin/airflow scheduler
 StandardOutput=append:/var/log/airflow/access.log
