@@ -1,6 +1,6 @@
 [Unit]
 Description=Airflow Webserver
-After=network.target airflow_webserver.service
+After=network.target
 
 [Service]
 Type=simple
@@ -12,7 +12,7 @@ WorkingDirectory=/home/admin/airflow
 Environment="PATH=/home/admin/miniconda3/envs/airflow/bin/airflow:/home/admin/miniconda3/condabin:/usr/local/bin:/usr/bin:/bin"
 Environment="AIRFLOW_HOME=/home/admin/airflow"
 Environment="PYTHONPATH=/home/admin/airflow"
-ExecStart=/home/admin/miniconda3/envs/airflow/bin/airflow webserver
+ExecStart=/home/admin/miniconda3/envs/airflow/bin/airflow webserver -p 8081 --pid /home/admin/airflow/airflow-webserver.pid
 StandardOutput=append:/var/log/airflow/access.log
 StandardError=append:/var/log/airflow/error.log
 ExecReload=/bin/kill -s HUP $MAINPID
@@ -20,4 +20,3 @@ ExecStop=/bin/kill -s TERM $MAINPID
 
 [Install]
 WantedBy=multi-user.target
-
