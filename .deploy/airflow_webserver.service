@@ -9,7 +9,7 @@ User=admin
 Group=admin
 RuntimeDirectory=airflow
 WorkingDirectory=/home/admin/airflow
-Environment="PATH=/home/admin/.local/bin/airflow:/home/admin/miniconda3/condabin:/usr/local/bin:/usr/bin:/bin"
+Environment="PATH=/home/admin/miniconda3/envs/airflow/bin/airflow:/home/admin/miniconda3/condabin:/usr/local/bin:/usr/bin:/bin"
 Environment="AIRFLOW_HOME=/home/admin/airflow"
 Environment="PYTHONPATH=/home/admin/airflow"
 ExecStart=/home/admin/.local/bin/airflow webserver
@@ -20,3 +20,4 @@ ExecStop=/bin/kill -s TERM $MAINPID
 
 [Install]
 WantedBy=multi-user.target
+
