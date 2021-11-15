@@ -31,7 +31,7 @@ dummy_task = DummyOperator(task_id="dummy_task", dag=dag)
 
 trigger_crawler = BashOperator(
     task_id="trigger_crawler",
-    bash_command=json_helper["bash_to_trigger_cralwer"].format("filipeflop_shipping","filipeflop_shipping.csv"),
+    bash_command=json_helper["bash_to_trigger_crawler"].format("filipeflop_shipping","filipeflop_shipping.csv"),
     dag=dag
 )
 
