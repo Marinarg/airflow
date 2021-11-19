@@ -21,7 +21,7 @@ default_args = {
 }
 dag = DAG(
         dag_id="soldafria_crawler",
-        schedule_interval="0 9 * * *",
+        schedule_interval="0 10 * * *",
         start_date=datetime(2021, 1, 1),
         catchup=False,
         default_args=default_args
