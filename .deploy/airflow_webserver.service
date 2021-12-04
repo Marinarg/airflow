@@ -1,6 +1,6 @@
 [Unit]
 Description=Airflow Webserver
-After=network.target mysql.service
+After=network.target airflow_webserver.service
 Wants=mysql.service
 
 [Service]
@@ -17,8 +17,3 @@ ExecStart=/home/admin/miniconda3/envs/airflow/bin/airflow webserver -p 8081
 PrivateTmp=true
 StandardOutput=append:/var/log/airflow/access.log
 StandardError=append:/var/log/airflow/error.log
-ExecReload=/bin/kill -s HUP $MAINPID
-ExecStop=/bin/kill -s TERM $MAINPID
-
-[Install]
-WantedBy=multi-user.target
