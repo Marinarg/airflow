@@ -2,6 +2,7 @@
 ## DAG Documentation
 This DAG is responsible for generating the Kmeans model that will be used in the website's recommendation system
 """
+import json
 import nltk
 import pickle
 import mysql.connector
@@ -43,8 +44,8 @@ def generate_stop_words():
     stop_words = nltk_stop_words + my_stop_words
 
     # Save it in a txt file to use in website API
-    with open('stop_words.txt', 'w') as f:
-        f.write(stop_words)
+    with open('stop_words.json', 'w') as f:
+        f.write(json.dumps({"stop_words": stop_words}))
 
     return stop_words
 
