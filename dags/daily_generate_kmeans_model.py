@@ -11,8 +11,10 @@ from sklearn.cluster import KMeans
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 from airflow import DAG
+from airflow.models import TaskInstance
 from airflow.operators.python import PythonOperator
 
+# DAG DEFINITIONS
 default_args = {
     "email": "marinarg09@gmail.com",
     "email_on_failure": True,
@@ -25,16 +27,11 @@ dag = DAG(
         default_args=default_args
 )
 
+# GLOBAL VARIABLES
 MODEL_PATH = '/home/admin/kmeans_model.sav'
 
 # FUNCTIONS
-def generate_recommendation_model(**kwargs):
-    # MySQL connect
-    connection = mysql.connector.connect(host='localhost',
-                                         database='eletronics',
-                                         user='root',
-                                         password='pankeka123')
-
+def generate_stop_words():
     # Get stop words
     nltk.download('stopwords')
     nltk_stop_words = nltk.corpus.stopwords.words('portuguese')
@@ -45,12 +42,31 @@ def generate_recommendation_model(**kwargs):
 
     stop_words = nltk_stop_words + my_stop_words
 
+    # Save it in a txt file to use in website API
+    with open('stop_words.txt', 'w') as f:
+        f.write(stop_words)
+
+    return stop_words
+
+
+def generate_recommendation_model(**kwargs):
+    # Get stop words
+    ti: TaskInstance = kwargs["ti"]
+    stop_words = ti.xcom_pull(task_ids="generate_stop_words")
+
+    # MySQL connect
+    connection = mysql.connector.connect(host='localhost',
+                                         database='eletronics',
+                                         user='root',
+                                         password='pankeka123')
+
+
     # Get product descriptions and vectorize it (considering stop words)
     sql_get_descriptions_query = (
         """
-    	SELECT DISTINCT product_description 
-    	FROM crawlers_results;
-    	"""
+        SELECT DISTINCT product_description 
+        FROM crawlers_results;
+        """
     )
 
     cursor = connection.cursor()
@@ -73,10 +89,16 @@ def generate_recommendation_model(**kwargs):
 
 
 # TASKS
-generate_files_task = PythonOperator(
-        task_id=f"generate_model",
-        python_callable=generate_recommendation_model,
-        dag=dag,
-    )
+generate_stop_words_file = PythonOperator(
+    task_id=f"generate_stop_words",
+    python_callable=generate_stop_words,
+    dag=dag,
+)
 
-generate_files_task
+generate_files_task = PythonOperator(
+    task_id=f"generate_model",
+    python_callable=generate_recommendation_model,
+    dag=dag,
+)
+
+generate_stop_words_file >> generate_files_task
