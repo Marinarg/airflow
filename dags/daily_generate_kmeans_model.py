@@ -43,7 +43,7 @@ def generate_stop_words():
 
     stop_words = nltk_stop_words + my_stop_words
 
-    # Save it in a txt file to use in website API
+    # Save it in a json file to use in website API
     with open('stop_words.json', 'w') as f:
         f.write(json.dumps({"stop_words": stop_words}))
 
