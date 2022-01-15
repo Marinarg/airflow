@@ -29,6 +29,7 @@ dag = DAG(
 )
 
 # GLOBAL VARIABLES
+STOP_WORDS_PATH = '/home/admin/stop_words.json'
 MODEL_PATH = '/home/admin/kmeans_model.sav'
 
 # FUNCTIONS
@@ -44,7 +45,7 @@ def generate_stop_words():
     stop_words = nltk_stop_words + my_stop_words
 
     # Save it in a json file to use in website API
-    with open('stop_words.json', 'w') as f:
+    with open(STOP_WORDS_PATH, 'w') as f:
         f.write(json.dumps({"stop_words": stop_words}))
 
     return stop_words
