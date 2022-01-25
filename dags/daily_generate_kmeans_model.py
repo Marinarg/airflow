@@ -39,9 +39,9 @@ def generate_stop_words():
     nltk_stop_words = nltk.corpus.stopwords.words('portuguese')
 
     my_stop_words = [
-        "características", "linear", "strong", "ref", "span", "div", "td", "tr", "table", "projetos", "chave", "possui",
+        "características", "linear", "strong", "ref", "color", "span", "style", "div", "td", "tr", "table", "projetos", "chave", "possui",
         "tolerância", "tensão", "w", "awg", "utilizado", "kit", "ser", "dr", "pode", "corrente", "módulo", "ideal"
-        "eletrônicos", "componentes", "utilizar"
+        "eletrônicos", "componentes", "utilizar", "ideal"
     ]
 
     stop_words = nltk_stop_words + my_stop_words
