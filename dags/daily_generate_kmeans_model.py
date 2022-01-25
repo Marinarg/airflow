@@ -43,17 +43,16 @@ def generate_stop_words():
         "características", "linear", "strong", "ref", "color", "span", "style", "div", "td", "tr", "table", "projetos", "chave", "possui",
         "tolerância", "tensão", "w", "awg", "utilizado", "kit", "ser", "dr", "pode", "corrente", "módulo", "ideal", "eletrônicos", 
         "componentes", "utilizar", "ideal", "utilização", "tamanho", "padrão", "potência", "valores", "entrar", "entrega", "entras", 
-        "circuitos", "temperatura", "dc",
+        "circuitos", "temperatura", "dc", "de", "com", "para", "passo"
     ]
 
     stop_words = nltk_stop_words + my_stop_words
-    stor_words_normalized = [unidecode(word).upper() for word in stop_words]
 
     # Save it in a json file to use in website API
     with open(STOP_WORDS_PATH, 'w') as f:
-        f.write(json.dumps({"stop_words": stor_words_normalized}))
+        f.write(json.dumps({"stop_words": stop_words}))
 
-    return stor_words_normalized
+    return stop_words
 
 
 def generate_recommendation_model(**kwargs):
@@ -80,7 +79,7 @@ def generate_recommendation_model(**kwargs):
     cursor.execute(sql_get_descriptions_query)
     records = cursor.fetchall()
 
-    product_descriptions = [unidecode(item[0]).upper() for item in records]
+    product_descriptions = [item[0] for item in records]
 
 
     tfid_vectorizer = TfidfVectorizer(stop_words=stop_words)
