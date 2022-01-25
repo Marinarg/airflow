@@ -6,6 +6,7 @@ import json
 import nltk
 import pickle
 import mysql.connector
+from unidecode import unidecode
 
 from datetime import datetime
 from sklearn.cluster import KMeans
@@ -41,16 +42,18 @@ def generate_stop_words():
     my_stop_words = [
         "características", "linear", "strong", "ref", "color", "span", "style", "div", "td", "tr", "table", "projetos", "chave", "possui",
         "tolerância", "tensão", "w", "awg", "utilizado", "kit", "ser", "dr", "pode", "corrente", "módulo", "ideal", "eletrônicos", 
-        "componentes", "utilizar", "ideal", "utilização", "tamanho", "padrão", "potência"
+        "componentes", "utilizar", "ideal", "utilização", "tamanho", "padrão", "potência", "valores", "entrar", "entrega", "entras", 
+        "circuitos", "temperatura", "dc",
     ]
 
     stop_words = nltk_stop_words + my_stop_words
+    stor_words_normalized = [unidecode(word).upper() for word in stop_words]
 
     # Save it in a json file to use in website API
     with open(STOP_WORDS_PATH, 'w') as f:
-        f.write(json.dumps({"stop_words": stop_words}))
+        f.write(json.dumps({"stop_words": stor_words_normalized}))
 
-    return stop_words
+    return stor_words_normalized
 
 
 def generate_recommendation_model(**kwargs):
@@ -77,7 +80,8 @@ def generate_recommendation_model(**kwargs):
     cursor.execute(sql_get_descriptions_query)
     records = cursor.fetchall()
 
-    product_descriptions = [item[0] for item in records]
+    product_descriptions = [unidecode(item[0]).upper() for item in records]
+
 
     tfid_vectorizer = TfidfVectorizer(stop_words=stop_words)
     vectorized_descriptions = tfid_vectorizer.fit_transform(product_descriptions)
