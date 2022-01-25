@@ -40,8 +40,8 @@ def generate_stop_words():
 
     my_stop_words = [
         "características", "linear", "strong", "ref", "color", "span", "style", "div", "td", "tr", "table", "projetos", "chave", "possui",
-        "tolerância", "tensão", "w", "awg", "utilizado", "kit", "ser", "dr", "pode", "corrente", "módulo", "ideal"
-        "eletrônicos", "componentes", "utilizar", "ideal", "utilização"
+        "tolerância", "tensão", "w", "awg", "utilizado", "kit", "ser", "dr", "pode", "corrente", "módulo", "ideal", "eletrônicos", 
+        "componentes", "utilizar", "ideal", "utilização", "tamanho", "padrão", "potência"
     ]
 
     stop_words = nltk_stop_words + my_stop_words
