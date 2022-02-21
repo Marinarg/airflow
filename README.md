@@ -66,4 +66,55 @@ This DAG has 2 tasks:
 - **generate_model**: has a PythonOperator to train and save the final Kmeans model on a file.
 
 
+## Installation Instructions
 
+This project currently uses:
+- Python 3.6.8
+- Airflow 2.1.0
+
+1. Install Miniconda:
+- `wget -q https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh`
+- `chmod +x Miniconda3-latest-Linux-x86_64.sh`
+- `./Miniconda3-latest-Linux-x86_64.sh`
+- `export PATH="/home/<YOUR-USER>/miniconda3/bin:$PATH" source ~/.bashrc`
+
+2. Create a Python environment, activate and install requirements:
+- `conda create -n airflow python=3.6`
+- `conda activate airflow`
+- `pip install -r requirements.txt`
+
+## Airflow configuration
+
+### 1. Environment variables
+There is one environment variable needed to be configured before using this instance of Airflow that is `AIRFLOW_HOME`. It must contain the full path of the root directory of this repository. To see that, open a terminal and run `pwd` on this repository's root directory. Then, run `export AIRFLOW_HOME=/path/to/repo` replacing the path by what is the correct value for you. To make this variable permanet, you can also add it to your `~/.bashrc` file.
+
+### 2. Local MySQL DB
+For Airflow to save the required metadata to run, it needs to store into a database. So you need to download MySQL client and follow [Airflow tutorial](https://airflow.apache.org/docs/apache-airflow/stable/howto/set-up-database.html#setting-up-a-mysql-database).
+
+### 3. Configure `airflow.cfg` file
+After configuring the environment variables and the local DB, you can finally add your local configurations to your local Airflow instance. For that, you will have to replace some variables as MySQL DB user and password.
+
+### 4. Initialize the local DB
+With all previous steps done, open a terminal, navigate to the repository's root directory and run the command: `airflow db init`.
+
+## Running a DAG / Task
+
+There are 2 ways to test a DAG/task in Airflow while developing.
+
+### 1. `airflow tasks test` command
+To run a specific task, use the command:
+
+`airflow tasks test [dag_id] [task_id] [execution_date]`
+
+in which:
+- `[dag_id]`: the DAG's name;
+- `[task_id]`: the task's name;
+- `[execution_date]`: a date in `YYYY-MM-DD` format that is greater than the DAG's `start_date` parameted + 1 schedule interval.
+
+### 2. Scheduler + Webserver
+Open 2 terminal sessions, enable the Airflow Conda environment in both of them and run one command in each terminal:
+
+- `airflow webserver`
+- `airflow scheduler`
+
+Then, open the browser in the URL http://localhost:8080/, go to the DAG you want to run, unpause it and check the execution and logs.
